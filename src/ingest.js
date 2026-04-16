@@ -320,6 +320,7 @@ async function ingestDate({ dbPath, targetDateEt, fetchImpl = global.fetch, now 
         targetDateEt: validatedDate,
         seenAtUtc: startedAtUtc,
       });
+      if (!record.halted_at_utc) continue;
       const existing = byEventId.get(record.event_id);
       byEventId.set(record.event_id, mergeRecord(existing, record));
     }
@@ -330,6 +331,7 @@ async function ingestDate({ dbPath, targetDateEt, fetchImpl = global.fetch, now 
         targetDateEt: validatedDate,
         seenAtUtc: startedAtUtc,
       });
+      if (!record.halted_at_utc) continue;
       const existing = byEventId.get(record.event_id);
       byEventId.set(record.event_id, mergeRecord(existing, record));
     }

@@ -125,6 +125,7 @@ function parseDateParts(dateText) {
 function parseTimeParts(timeText) {
   const match = String(timeText || '')
     .trim()
+    .replace(/\s+/g, '')
     .match(/^(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/);
   if (!match) return null;
   return {
