@@ -1,0 +1,17 @@
+{
+  "name": "nasdaq-halts-archive",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone Nasdaq trade halt archiver with scheduled SQLite persistence.",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "ingest-day": "node src/ingest-day.js",
+    "backfill": "node src/backfill.js",
+    "export-csv": "node src/export-csv.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
