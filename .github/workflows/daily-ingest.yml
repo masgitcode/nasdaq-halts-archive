@@ -35,9 +35,11 @@ jobs:
         run: npm test
 
       - name: Run daily ingest
+        env:
+          TARGET_DATE: ${{ inputs.date }}
         run: |
-          if [ -n "${{ inputs.date }}" ]; then
-            node src/ingest-day.js --date "${{ inputs.date }}"
+          if [ -n "$TARGET_DATE" ]; then
+            node src/ingest-day.js --date "$TARGET_DATE"
           else
             node src/ingest-day.js
           fi
@@ -45,6 +47,7 @@ jobs:
       - name: Commit database changes
         env:
           PRIVACY_BLOCKED_IDENTIFIERS: ${{ secrets.PRIVACY_BLOCKED_IDENTIFIERS }}
+          TARGET_DATE: ${{ inputs.date }}
         run: |
           set -euo pipefail
           previous_head="$(git rev-parse HEAD)"
@@ -56,8 +59,8 @@ jobs:
             exit 0
           fi
 
-          if [ -n "${{ inputs.date }}" ]; then
-            COMMIT_MESSAGE="archive halts for ${{ inputs.date }}"
+          if [ -n "$TARGET_DATE" ]; then
+            COMMIT_MESSAGE="archive halts for $TARGET_DATE"
           else
             COMMIT_MESSAGE="archive halts for $(date -u +%F)"
           fi
