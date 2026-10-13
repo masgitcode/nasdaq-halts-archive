@@ -1,5 +1,10 @@
 # Nasdaq Halts Archive
 
+Branch and tag publishing is restricted to dedicated publisher keys. Feed jobs
+and configured local pushes check content and commit identities before
+publication. Private identifier checks are configured outside this public repo;
+ordinary account-token and browser writes are blocked by repository rulesets.
+
 Standalone Node CLI for archiving Nasdaq trade halt data into a local SQLite database that can be committed back into the repo on a daily schedule.
 
 ## What it does

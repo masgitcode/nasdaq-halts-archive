@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.PRIVACY_PUBLISH_KEY }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -41,7 +43,11 @@ jobs:
           fi
 
       - name: Commit database changes
+        env:
+          PRIVACY_BLOCKED_IDENTIFIERS: ${{ secrets.PRIVACY_BLOCKED_IDENTIFIERS }}
         run: |
+          set -euo pipefail
+          previous_head="$(git rev-parse HEAD)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/halts.sqlite
@@ -57,4 +63,5 @@ jobs:
           fi
 
           git commit -m "$COMMIT_MESSAGE"
+          python3 .github/privacy_guard.py "$previous_head..HEAD" --ref refs/heads/main
           git push
